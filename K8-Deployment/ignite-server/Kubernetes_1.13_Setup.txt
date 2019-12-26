@@ -21,6 +21,12 @@ iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
 ipvsadm --clear
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml
+
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
 kubeadm join 192.168.1.243:6443 --token mypcum.s5pn2ldbhr69xor2 --discovery-token-ca-cert-hash sha256:082e8e5311d48432cc1453890710c38c085e6cb183e6603e2e9d4c9ac1b5307e
