@@ -14,6 +14,26 @@ https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/host
 kubectl apply -f \
 https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/hosted/calico.yaml
 
+UNINSTALL & REINSTALL KUBERNETES:
+sudo -s
+kubeadm reset
+apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
+apt-get autoremove  
+sudo rm -rf ~/.kube
+
+kubectl drain <node name> --delete-local-data --force --ignore-daemonsets
+kubectl delete node <node name>
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+apt-get update
+apt-get install -y kubeadm=1.15.0-00 kubectl=1.15.0-00 kubelet=1.15.0-00 kubernetes-cni=0.7.5-00
+
+
+
+
 FLANNEL:
 
 kubeadm reset
