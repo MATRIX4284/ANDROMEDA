@@ -17,6 +17,8 @@ https://docs.projectcalico.org/v3.4/getting-started/kubernetes/installation/host
 FLANNEL:
 
 kubeadm reset
+iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+ipvsadm --clear
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
